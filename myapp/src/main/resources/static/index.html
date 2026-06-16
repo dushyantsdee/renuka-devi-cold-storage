@@ -22,7 +22,7 @@
         <section class="stats">
             <div class="card">
                 <p class="label">Total Kisan</p>
-                <p class="value">128</p>
+                <p class="value" id="total-kisan">...</p>
             </div>
             <div class="card">
                 <p class="label">Bags in Storage</p>
@@ -72,5 +72,15 @@
             </table>
         </section>
     </main>
+    <script>
+    async function loadStats() {
+        const response = await fetch('/api/kisan');
+        const kisanList = await response.json();
+
+        document.getElementById('total-kisan').textContent = kisanList.length;
+    }
+
+    loadStats();
+</script>
 </body>
 </html>
