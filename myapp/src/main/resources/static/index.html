@@ -41,34 +41,16 @@
         <section class="recent">
             <h2>Recent Entries</h2>
             <table>
-                <thead>
-                    <tr>
-                        <th>Kisan</th>
-                        <th>Village</th>
-                        <th>Bags</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Ramesh Singh</td>
-                        <td>Samsabad</td>
-                        <td>120</td>
-                        <td>12 Jun</td>
-                    </tr>
-                    <tr>
-                        <td>Suresh Yadav</td>
-                        <td>Fatehabad</td>
-                        <td>85</td>
-                        <td>11 Jun</td>
-                    </tr>
-                    <tr>
-                        <td>Mahesh Kumar</td>
-                        <td>Etmadpur</td>
-                        <td>200</td>
-                        <td>10 Jun</td>
-                    </tr>
-                </tbody>
+<thead>
+    <tr>
+        <th>Kisan</th>
+        <th>Date In</th>
+        <th>Bags</th>
+        <th>Status</th>
+    </tr>
+</thead>
+<tbody id="recent-entries">
+</tbody>
             </table>
         </section>
     </main>
@@ -85,11 +67,40 @@
         storageList.forEach(entry => {
             totalBags += entry.bags;
         });
-
         document.getElementById('total-bags').textContent = totalBags.toLocaleString();
     }
 
+    async function loadRecentEntries() {
+        const response = await fetch('/api/storage');
+        const entries = await response.json();
+
+        const tbody = document.getElementById('recent-entries');
+        tbody.innerHTML = '';
+
+        const recent = entries.slice(-5).reverse();
+
+        recent.forEach(entry => {
+            tbody.innerHTML += `
+                <tr>
+                    <td>${entry.kisanName}</td>
+                    <td>${entry.dateIn}</td>
+                    <td>${entry.bags}</td>
+                    <td>
+                        <span style="
+                            padding: 3px 10px;
+                            border-radius: 20px;
+                            font-size: 12px;
+                            background-color: ${entry.status === 'IN' ? 'rgba(52,211,153,0.15)' : 'rgba(248,113,113,0.15)'};
+                            color: ${entry.status === 'IN' ? '#34d399' : '#f87171'};
+                        ">${entry.status}</span>
+                    </td>
+                </tr>
+            `;
+        });
+    }
+
     loadStats();
+    loadRecentEntries();
 </script>
 </body>
 </html>
