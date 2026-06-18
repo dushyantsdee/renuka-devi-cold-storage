@@ -26,7 +26,7 @@
             </div>
             <div class="card">
                 <p class="label">Bags in Storage</p>
-                <p class="value">4,560</p>
+                <p class="value" id="total-bags">...</p>
             </div>
             <div class="card">
                 <p class="label">Capacity Used</p>
@@ -72,12 +72,21 @@
             </table>
         </section>
     </main>
-    <script>
+<script>
     async function loadStats() {
-        const response = await fetch('/api/kisan');
-        const kisanList = await response.json();
-
+        const kisanResponse = await fetch('/api/kisan');
+        const kisanList = await kisanResponse.json();
         document.getElementById('total-kisan').textContent = kisanList.length;
+
+        const storageResponse = await fetch('/api/storage/status/IN');
+        const storageList = await storageResponse.json();
+
+        let totalBags = 0;
+        storageList.forEach(entry => {
+            totalBags += entry.bags;
+        });
+
+        document.getElementById('total-bags').textContent = totalBags.toLocaleString();
     }
 
     loadStats();
