@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storage Entries | Renuka Devi</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .form-box {
+            background-color: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .form-box h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-row input,
+        .form-row select {
+            background-color: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #e6edf3;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-row input:focus,
+        .form-row select:focus {
+            border-color: #c084fc;
+        }
+
+        .form-row input::placeholder {
+            color: #8b949e;
+        }
+
+        .form-row select option {
+            background-color: #161b22;
+        }
+
+        .btn-add {
+            background: linear-gradient(90deg, #818cf8, #c084fc);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-add:hover { opacity: 0.85; }
+
+        .entries-table {
+            background-color: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .entries-table h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .badge.in {
+            background-color: rgba(52, 211, 153, 0.15);
+            color: #34d399;
+        }
+
+        .badge.out {
+            background-color: rgba(248, 113, 113, 0.15);
+            color: #f87171;
+        }
+
+        .btn-checkout {
+            background-color: transparent;
+            color: #fbbf24;
+            border: 1px solid #fbbf24;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-checkout:hover {
+            background-color: #fbbf24;
+            color: #0d1117;
+        }
+
+        .btn-delete {
+            background-color: transparent;
+            color: #f87171;
+            border: 1px solid #f87171;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 6px;
+        }
+
+        .btn-delete:hover {
+            background-color: #f87171;
+            color: white;
+        }
+
+        .checkout-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .checkout-modal.show {
+            display: flex;
+        }
+
+        .modal-box {
+            background-color: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 14px;
+            padding: 30px;
+            width: 400px;
+        }
+
+        .modal-box h3 {
+            margin-bottom: 20px;
+        }
+
+        .modal-box input,
+        .modal-box select {
+            width: 100%;
+            background-color: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #e6edf3;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 14px;
+        }
+
+        .modal-box input:focus,
+        .modal-box select:focus {
+            border-color: #c084fc;
+        }
+
+        .modal-box select option {
+            background-color: #161b22;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .btn-confirm {
+            background: linear-gradient(90deg, #818cf8, #c084fc);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .btn-cancel {
+            background-color: #21262d;
+            color: #e6edf3;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar">
+        <h1>Renuka Devi Cold Storage</h1>
+        <nav>
+            <a href="/">Dashboard</a>
+            <a href="/kisan.html">Kisan</a>
+            <a href="/storage.html" class="active">Storage Entries</a>
+            <a href="#">Staff</a>
+            <a href="#">Accounts</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-box">
+            <h2>Nayi Entry Add Karo</h2>
+            <div class="form-row">
+                <select id="kisanSelect">
+                    <option value="">Kisan select karo</option>
+                </select>
+                <input type="number" id="bags" placeholder="Bags ki sankhya">
+                <input type="number" id="ratePerBag" placeholder="Rate per bag (₹)">
+                <input type="date" id="dateIn">
+            </div>
+            <button class="btn-add" onclick="addEntry()">Entry Add Karo</button>
+        </div>
+
+        <div class="entries-table">
+            <h2>Saari Entries</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kisan</th>
+                        <th>Bags</th>
+                        <th>Rate</th>
+                        <th>Date In</th>
+                        <th>Date Out</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="entries-list"></tbody>
+            </table>
+        </div>
+    </main>
+
+    <div class="checkout-modal" id="checkoutModal">
+        <div class="modal-box">
+            <h3>Checkout Karo</h3>
+            <input type="date" id="dateOut">
+            <select id="withdrawalType">
+                <option value="">Nikalne ka tarika</option>
+                <option value="SELF">Kisan khud aaya</option>
+                <option value="TRADER">Vyapari aaya</option>
+                <option value="COLD_SELL">Cold ne becha</option>
+            </select>
+            <input type="text" id="traderName" placeholder="Vyapari ka naam (optional)">
+            <div class="modal-buttons">
+                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-confirm" onclick="confirmCheckout()">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentCheckoutId = null;
+
+        async function loadKisanDropdown() {
+            const response = await fetch('/api/kisan');
+            const kisanList = await response.json();
+            const select = document.getElementById('kisanSelect');
+            kisanList.forEach(kisan => {
+                select.innerHTML += `<option value="${kisan.id}" data-name="${kisan.name}">${kisan.name} - ${kisan.village}</option>`;
+            });
+        }
+
+        async function loadEntries() {
+            const response = await fetch('/api/storage');
+            const entries = await response.json();
+            const tbody = document.getElementById('entries-list');
+            tbody.innerHTML = '';
+            entries.forEach(entry => {
+                const isIN = entry.status === 'IN';
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${entry.kisanName}</td>
+                        <td>${entry.bags}</td>
+                        <td>₹${entry.ratePerBag}</td>
+                        <td>${entry.dateIn}</td>
+                        <td>${entry.dateOut ?? '-'}</td>
+                        <td><span class="badge ${isIN ? 'in' : 'out'}">${entry.status}</span></td>
+                        <td>
+                            ${isIN ? `<button class="btn-checkout" onclick="openModal('${entry.id}')">Checkout</button>` : ''}
+                            <button class="btn-delete" onclick="deleteEntry('${entry.id}')">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function addEntry() {
+            const select = document.getElementById('kisanSelect');
+            const kisanId = select.value;
+            const kisanName = select.options[select.selectedIndex].dataset.name;
+            const bags = document.getElementById('bags').value;
+            const ratePerBag = document.getElementById('ratePerBag').value;
+            const dateIn = document.getElementById('dateIn').value;
+
+            if (!kisanId || !bags || !ratePerBag || !dateIn) {
+                alert('Saari fields bharo!');
+                return;
+            }
+
+            await fetch('/api/storage', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ kisanId, kisanName, bags, ratePerBag, dateIn })
+            });
+
+            document.getElementById('bags').value = '';
+            document.getElementById('ratePerBag').value = '';
+            document.getElementById('dateIn').value = '';
+            select.value = '';
+
+            loadEntries();
+        }
+
+        function openModal(id) {
+            currentCheckoutId = id;
+            document.getElementById('checkoutModal').classList.add('show');
+        }
+
+        function closeModal() {
+            currentCheckoutId = null;
+            document.getElementById('checkoutModal').classList.remove('show');
+        }
+
+        async function confirmCheckout() {
+            const dateOut = document.getElementById('dateOut').value;
+            const withdrawalType = document.getElementById('withdrawalType').value;
+            const traderName = document.getElementById('traderName').value;
+
+            if (!dateOut || !withdrawalType) {
+                alert('Date aur tarika zaroori hai!');
+                return;
+            }
+
+            await fetch(`/api/storage/${currentCheckoutId}/checkout`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ dateOut, withdrawalType, traderName })
+            });
+
+            closeModal();
+            loadEntries();
+        }
+
+        async function deleteEntry(id) {
+            if (confirm('Kya aap sure hain?')) {
+                await fetch(`/api/storage/${id}`, { method: 'DELETE' });
+                loadEntries();
+            }
+        }
+
+        loadKisanDropdown();
+        loadEntries();
+    </script>
+</body>
+</html>
