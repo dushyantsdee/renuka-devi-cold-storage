@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kisan | Renuka Devi</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .kisan-form {
+            background-color: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 14px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .kisan-form h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-row input {
+            background-color: #0d1117;
+            border: 1px solid #21262d;
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #e6edf3;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-row input:focus {
+            border-color: #c084fc;
+        }
+
+        .form-row input::placeholder {
+            color: #8b949e;
+        }
+
+        .btn-add {
+            background: linear-gradient(90deg, #818cf8, #c084fc);
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-add:hover {
+            opacity: 0.85;
+        }
+
+        .kisan-table {
+            background-color: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .kisan-table h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .btn-delete {
+            background-color: transparent;
+            color: #f87171;
+            border: 1px solid #f87171;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-delete:hover {
+            background-color: #f87171;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <h1>Renuka Devi Cold Storage</h1>
+        <nav>
+            <a href="/">Dashboard</a>
+            <a href="/kisan.html" class="active">Kisan</a>
+            <a href="#">Storage Entries</a>
+            <a href="#">Staff</a>
+            <a href="#">Accounts</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="kisan-form">
+            <h2>Naya Kisan Add Karo</h2>
+            <div class="form-row">
+                <input type="text" id="name" placeholder="Kisan ka naam">
+                <input type="text" id="phone" placeholder="Phone number">
+                <input type="text" id="village" placeholder="Gaon ka naam">
+            </div>
+            <button class="btn-add" onclick="addKisan()">Add Kisan</button>
+        </div>
+
+        <div class="kisan-table">
+            <h2>Saare Kisan</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Naam</th>
+                        <th>Phone</th>
+                        <th>Gaon</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="kisan-list">
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        async function loadKisan() {
+            const response = await fetch('/api/kisan');
+            const kisanList = await response.json();
+
+            const tbody = document.getElementById('kisan-list');
+            tbody.innerHTML = '';
+
+            kisanList.forEach(kisan => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${kisan.name}</td>
+                        <td>${kisan.phone}</td>
+                        <td>${kisan.village}</td>
+                        <td>
+                            <button class="btn-delete" onclick="deleteKisan('${kisan.id}')">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function addKisan() {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const village = document.getElementById('village').value;
+
+            if (!name || !phone || !village) {
+                alert('Saari fields bharo!');
+                return;
+            }
+
+            await fetch('/api/kisan', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, phone, village })
+            });
+
+            document.getElementById('name').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('village').value = '';
+
+            loadKisan();
+        }
+
+        async function deleteKisan(id) {
+            if (confirm('Kya aap sure hain?')) {
+                await fetch(`/api/kisan/${id}`, { method: 'DELETE' });
+                loadKisan();
+            }
+        }
+
+        loadKisan();
+    </script>
+</body>
+</html>
