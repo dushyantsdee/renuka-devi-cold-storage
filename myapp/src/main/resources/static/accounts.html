@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounts | Renuka Devi</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background-color: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .summary-card .label {
+            font-size: 13px;
+            color: #8b949e;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .summary-card .value {
+            font-size: 30px;
+            font-weight: 700;
+        }
+
+        .income .value { color: #34d399; }
+        .expense .value { color: #f87171; }
+        .profit .value.positive { color: #818cf8; }
+        .profit .value.negative { color: #f87171; }
+
+        .info-box {
+            background-color: #161b22;
+            border: 1px solid #21262d;
+            border-radius: 14px;
+            padding: 24px;
+            font-size: 14px;
+            color: #8b949e;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <h1>Renuka Devi Cold Storage</h1>
+        <nav>
+            <a href="/">Dashboard</a>
+            <a href="/kisan.html">Kisan</a>
+            <a href="/storage.html">Storage Entries</a>
+            <a href="/staff.html">Staff</a>
+            <a href="/accounts.html" class="active">Accounts</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="summary-grid">
+            <div class="summary-card income">
+                <p class="label">Total Income</p>
+                <p class="value" id="total-income">₹0</p>
+            </div>
+            <div class="summary-card expense">
+                <p class="label">Total Expense</p>
+                <p class="value" id="total-expense">₹0</p>
+            </div>
+            <div class="summary-card profit">
+                <p class="label">Net Profit</p>
+                <p class="value" id="net-profit">₹0</p>
+            </div>
+        </div>
+
+        <div class="info-box">
+            Income — saari OUT ho chuki storage entries ka rent (bags × rate).<br>
+            Expense — staff ko ab tak diye gaye saare payments.
+        </div>
+    </main>
+
+    <script>
+        async function loadSummary() {
+            const response = await fetch('/api/accounts/summary');
+            const data = await response.json();
+
+            document.getElementById('total-income').textContent = '₹' + data.totalIncome.toLocaleString();
+            document.getElementById('total-expense').textContent = '₹' + data.totalExpense.toLocaleString();
+
+            const profitEl = document.getElementById('net-profit');
+            profitEl.textContent = '₹' + data.netProfit.toLocaleString();
+            profitEl.classList.add(data.netProfit >= 0 ? 'positive' : 'negative');
+        }
+
+        loadSummary();
+    </script>
+</body>
+</html>
