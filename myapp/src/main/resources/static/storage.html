@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <script src="auth.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Storage Entries | Renuka Devi</title>
@@ -62,7 +64,9 @@
             transition: opacity 0.2s;
         }
 
-        .btn-add:hover { opacity: 0.85; }
+        .btn-add:hover {
+            opacity: 0.85;
+        }
 
         .entries-table {
             background-color: #161b22;
@@ -129,9 +133,11 @@
         .checkout-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.6);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
             z-index: 100;
             justify-content: center;
             align-items: center;
@@ -204,6 +210,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <header class="navbar">
@@ -212,8 +219,8 @@
             <a href="/">Dashboard</a>
             <a href="/kisan.html">Kisan</a>
             <a href="/storage.html" class="active">Storage Entries</a>
-            <a href="#">Staff</a>
-            <a href="#">Accounts</a>
+            <a href="/staff.html">Staff</a>
+            <a href="/accounts.html">Accounts</a>
         </nav>
     </header>
 
@@ -372,4 +379,5 @@
         loadEntries();
     </script>
 </body>
+
 </html>

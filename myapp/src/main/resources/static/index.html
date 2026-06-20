@@ -1,20 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <script src="auth.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Renuka Devi Cold Storage</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header class="navbar">
         <h1>Renuka Devi Cold Storage</h1>
         <nav>
-            <a href="#" class="active">Dashboard</a>
-            <a href="#">Kisan</a>
-            <a href="#">Storage Entries</a>
-            <a href="#">Staff</a>
-            <a href="#">Accounts</a>
+            <a href="/" class="active">Dashboard</a>
+            <a href="/kisan.html">Kisan</a>
+            <a href="/storage.html">Storage Entries</a>
+            <a href="/staff.html">Staff</a>
+            <a href="/accounts.html">Accounts</a>
         </nav>
     </header>
 
@@ -41,46 +44,46 @@
         <section class="recent">
             <h2>Recent Entries</h2>
             <table>
-<thead>
-    <tr>
-        <th>Kisan</th>
-        <th>Date In</th>
-        <th>Bags</th>
-        <th>Status</th>
-    </tr>
-</thead>
-<tbody id="recent-entries">
-</tbody>
+                <thead>
+                    <tr>
+                        <th>Kisan</th>
+                        <th>Date In</th>
+                        <th>Bags</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="recent-entries">
+                </tbody>
             </table>
         </section>
     </main>
-<script>
-    async function loadStats() {
-        const kisanResponse = await fetch('/api/kisan');
-        const kisanList = await kisanResponse.json();
-        document.getElementById('total-kisan').textContent = kisanList.length;
+    <script>
+        async function loadStats() {
+            const kisanResponse = await fetch('/api/kisan');
+            const kisanList = await kisanResponse.json();
+            document.getElementById('total-kisan').textContent = kisanList.length;
 
-        const storageResponse = await fetch('/api/storage/status/IN');
-        const storageList = await storageResponse.json();
+            const storageResponse = await fetch('/api/storage/status/IN');
+            const storageList = await storageResponse.json();
 
-        let totalBags = 0;
-        storageList.forEach(entry => {
-            totalBags += entry.bags;
-        });
-        document.getElementById('total-bags').textContent = totalBags.toLocaleString();
-    }
+            let totalBags = 0;
+            storageList.forEach(entry => {
+                totalBags += entry.bags;
+            });
+            document.getElementById('total-bags').textContent = totalBags.toLocaleString();
+        }
 
-    async function loadRecentEntries() {
-        const response = await fetch('/api/storage');
-        const entries = await response.json();
+        async function loadRecentEntries() {
+            const response = await fetch('/api/storage');
+            const entries = await response.json();
 
-        const tbody = document.getElementById('recent-entries');
-        tbody.innerHTML = '';
+            const tbody = document.getElementById('recent-entries');
+            tbody.innerHTML = '';
 
-        const recent = entries.slice(-5).reverse();
+            const recent = entries.slice(-5).reverse();
 
-        recent.forEach(entry => {
-            tbody.innerHTML += `
+            recent.forEach(entry => {
+                tbody.innerHTML += `
                 <tr>
                     <td>${entry.kisanName}</td>
                     <td>${entry.dateIn}</td>
@@ -96,11 +99,12 @@
                     </td>
                 </tr>
             `;
-        });
-    }
+            });
+        }
 
-    loadStats();
-    loadRecentEntries();
-</script>
+        loadStats();
+        loadRecentEntries();
+    </script>
 </body>
+
 </html>

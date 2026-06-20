@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Staff | Renuka Devi</title>
@@ -13,14 +15,21 @@
             padding: 24px;
             margin-bottom: 30px;
         }
-        .form-box h2 { margin-bottom: 20px; font-size: 18px; }
+
+        .form-box h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
         .form-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 16px;
             margin-bottom: 16px;
         }
-        .form-row input, .form-row select {
+
+        .form-row input,
+        .form-row select {
             background-color: #0d1117;
             border: 1px solid #21262d;
             border-radius: 8px;
@@ -30,9 +39,20 @@
             outline: none;
             transition: border-color 0.2s;
         }
-        .form-row input:focus, .form-row select:focus { border-color: #c084fc; }
-        .form-row input::placeholder { color: #8b949e; }
-        .form-row select option { background-color: #161b22; }
+
+        .form-row input:focus,
+        .form-row select:focus {
+            border-color: #c084fc;
+        }
+
+        .form-row input::placeholder {
+            color: #8b949e;
+        }
+
+        .form-row select option {
+            background-color: #161b22;
+        }
+
         .btn-add {
             background: linear-gradient(90deg, #818cf8, #c084fc);
             color: white;
@@ -43,22 +63,40 @@
             cursor: pointer;
             transition: opacity 0.2s;
         }
-        .btn-add:hover { opacity: 0.85; }
+
+        .btn-add:hover {
+            opacity: 0.85;
+        }
+
         .staff-table {
             background-color: #161b22;
             border: 1px solid #21262d;
             border-radius: 14px;
             padding: 24px;
         }
-        .staff-table h2 { margin-bottom: 20px; font-size: 18px; }
+
+        .staff-table h2 {
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
         .role-badge {
             padding: 3px 10px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
         }
-        .role-badge.manager { background-color: rgba(129,140,248,0.15); color: #818cf8; }
-        .role-badge.worker { background-color: rgba(251,191,36,0.15); color: #fbbf24; }
+
+        .role-badge.manager {
+            background-color: rgba(129, 140, 248, 0.15);
+            color: #818cf8;
+        }
+
+        .role-badge.worker {
+            background-color: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+        }
+
         .btn-delete {
             background-color: transparent;
             color: #f87171;
@@ -70,18 +108,29 @@
             transition: all 0.2s;
             margin-left: 8px;
         }
-        .btn-delete:hover { background-color: #f87171; color: white; }
+
+        .btn-delete:hover {
+            background-color: #f87171;
+            color: white;
+        }
+
         .checkout-modal {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.6);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
             z-index: 100;
             justify-content: center;
             align-items: center;
         }
-        .checkout-modal.show { display: flex; }
+
+        .checkout-modal.show {
+            display: flex;
+        }
+
         .modal-box {
             background-color: #161b22;
             border: 1px solid #21262d;
@@ -89,7 +138,11 @@
             padding: 30px;
             width: 400px;
         }
-        .modal-box h3 { margin-bottom: 20px; }
+
+        .modal-box h3 {
+            margin-bottom: 20px;
+        }
+
         .modal-box input {
             width: 100%;
             background-color: #0d1117;
@@ -101,7 +154,13 @@
             outline: none;
             margin-bottom: 14px;
         }
-        .modal-buttons { display: flex; gap: 10px; margin-top: 6px; }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
         .btn-confirm {
             background: linear-gradient(90deg, #818cf8, #c084fc);
             color: white;
@@ -112,6 +171,7 @@
             cursor: pointer;
             flex: 1;
         }
+
         .btn-cancel {
             background-color: #21262d;
             color: #e6edf3;
@@ -124,6 +184,7 @@
         }
     </style>
 </head>
+
 <body>
     <header class="navbar">
         <h1>Renuka Devi Cold Storage</h1>
@@ -132,7 +193,7 @@
             <a href="/kisan.html">Kisan</a>
             <a href="/storage.html">Storage Entries</a>
             <a href="/staff.html" class="active">Staff</a>
-            <a href="#">Accounts</a>
+            <a href="/accounts.html">Accounts</a>
         </nav>
     </header>
 
@@ -315,4 +376,5 @@
         loadStaff();
     </script>
 </body>
+
 </html>
